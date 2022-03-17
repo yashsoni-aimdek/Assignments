@@ -50,3 +50,69 @@ public class TestClass {
 Output :
 
 4 5 1 2 3
+
+////////////////////////////////////////////////////////////////////////////////////
+
+New Code :
+
+import java.util.Scanner; 
+public class TestClass {
+
+     public static void rightRotateByOne(int[] A)
+    {
+        int last = A[A.length - 1]; 
+        for (int i = A.length - 2; i >= 0; i--) {
+            A[i + 1] = A[i];    //rotating to right 
+        }
+ 
+        A[0] = last;  //storing the last array number in 1st position
+    }
+
+    public static void rightRotate(int[] A, int k)
+    {
+        if (k < 0 || k >= A.length) {
+            return;  //if k will be in negative or equal to length of Array then it will stop
+        }
+ 
+        for (int i = 0; i < k; i++) {
+            rightRotateByOne(A);    //for rotating till k
+        }
+    }    
+
+    public static void main(String args[] ) throws Exception {
+
+        //int A[]={1,2,3,4,5};
+        int k;
+        int T;
+        int n;
+        
+
+        Scanner sc = new Scanner(System.in);
+        
+        T=sc.nextInt();
+        for(int j=0;j<T;j++){
+            
+            n=sc.nextInt(); //Entering number of elements in array
+            k=sc.nextInt(); //Entering number of Test Cases to perform
+            int[] A = new int[n];
+            //System.out.println("Enter the elements of the array: ");  
+            for(int i=0; i<n; i++)  
+            {  
+                //reading array elements from the user   
+                A[i]=sc.nextInt();  
+            }  
+            //System.out.println("Array elements are: ");
+            /*for (int i=0; i<n; i++)   
+            {  
+                System.out.println(A[i]);  
+            } */ 
+
+        
+            rightRotate(A, k);
+
+            for(int i=0;i<A.length;i++){
+                System.out.print(A[i] + " ");    //printing final output
+            }
+        }
+    }
+}
