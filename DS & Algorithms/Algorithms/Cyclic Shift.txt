@@ -1,0 +1,54 @@
+Question :
+Cyclic shift
+A large binary number is represented by a string A of size N and comprises of Os and 1s. You must perform a cyclic shift on this string. The cyclic shift operation is defined as follows:
+
+If the string A is A[A0,A1,A2,...,An-1], then after performing one cyclic shift, the string becomes [A1,A2,....,An-1,A0].
+
+Code :
+
+import java.util.*;
+import java.io.*;
+
+class TestClass {
+    public static void main(String[] args ){
+        Scanner sc = new Scanner(System.in);
+
+        int T = sc.nextInt();  //taking input for number of Test Cases
+        while(T-- > 0){     //loop to iterate all Test Cases
+            int n;      //size of String
+            int k;      //k'th time the string will appear when its cycled
+            int d=0;    
+            n = sc.nextInt(); 
+            k = sc.nextInt();
+            String B = sc.next();
+            String max = "";
+            String inter = B;
+            int period = -1;
+
+            for(int i=0;i < n;i++){     //iterating our string
+                if(max.compareTo(inter) < 0){ //if max greater than string
+                    max = inter;    //storing string in max if greater
+                    d = i;      //recording this place in an integer d
+                }else if(max.compareTo(inter) == 0){  //if its equal to 0
+                    period = i - d;     //current iteration - old recorded iteration count is out period
+                    break;      //breaking out of loop
+                }
+                inter = inter.substring(1,inter.length()) + inter.substring(0,1);   //performing left shift and updating our string
+            }
+            if(period == -1){
+                System.out.println(d +(k - 1L)* n); //printing the output
+            }else{
+                System.out.println(d +(k - 1L)* period); //printing the output
+            }
+
+            
+        }
+
+
+    }
+}
+
+Output :
+
+9
+3
