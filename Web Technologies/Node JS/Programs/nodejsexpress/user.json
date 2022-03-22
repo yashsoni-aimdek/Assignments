@@ -1,1 +1,1 @@
-[{"username":"yash","password":"testpass","fullname":"yash soni","age":23}]
+[{"id":"1","name":"yash","password":"testpass","gender":"male","birthdate":"18/12/1998","age":23,"country":"india","phone":"+91987612345"},{"id":"2","name":"test user","password":"test123","gender":"male","birthdate":"26/04/1996","age":23,"country":"india","phone":"+911112223334"}]
