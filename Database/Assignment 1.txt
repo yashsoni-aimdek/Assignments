@@ -73,7 +73,50 @@ Ahmedabad
 Vadodara
 Ahemdabad
 
-//
+//order by Name
 
-select * from employees order by Branch ;
-						
+select * from employees order by Name ;
+
+EmpId	Name		Branch		age
+101	Rakesh Keshri	Vadodara	23
+102	Vaibhav Sharma	Ahemdabad	23
+100	Yash Soni	Ahmedabad	23
+			
+
+//group by branch
+
+select branch,count(*) from employees group by branch;
+
+Branch		count(*)
+Ahmedabad	1
+Vadodara	1
+Ahemdabad	1
+
+
+//like using '%'
+
+select Name from employees where Name like '%Soni';						
+
+Name
+Yash Soni
+
+//like using '_' wildcard
+
+select Name from employees where EmpId like '_01';
+
+Name
+Rakesh Keshri
+
+//delete query
+
+delete from employees where EmpId=102;
+
+//view table
+
+select * from employees;
+
+
+EmpId	Name		Branch		age
+100	Yash Soni	Ahmedabad	23
+101	Rakesh Keshri	Vadodara	23
+			
