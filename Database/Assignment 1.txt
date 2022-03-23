@@ -1,0 +1,79 @@
+//Creating database
+
+create database employee_db;
+
+//Select Database
+
+use employee_db;
+
+//Create Table Employee
+
+create table Employees(
+EmpId int primary key,
+Name varchar(20),
+Branch varchar(20) );
+
+// Adding a new column Age
+
+alter table employees add age int(3);
+
+//Adding Data in Employees Table 
+
+insert into employees (EmpId,Name,Branch,age) values (100,'Yash Soni','Ahmedabad',23);
+
+//Viewing Data of Employees Table
+
+select * from employees;
+
+
+EmpId	Name		Branch		age
+100	Yash Soni	Ahmedabad	23
+			
+
+// Inserting Multiple Data
+
+insert into employees values (101,'Rakesh Keshri','Vadodara',22),(102,'Vaibhav Sharma','Ahemdabad',23);
+
+//Viewing Data of Employees Table
+
+select * from employees;
+
+EmpId	Name		Branch		age
+100	Yash Soni	Ahmedabad	23
+101	Rakesh Keshri	Vadodara	22
+102	Vaibhav Sharma	Ahemdabad	23
+
+//Updating Age of employee with EmpId 101
+
+update employees set age=23 where EmpId=101;
+
+//Viewing Data of Employees Table
+
+select * from employees;
+
+
+EmpId	Name		Branch		age
+100	Yash Soni	Ahmedabad	23
+101	Rakesh Keshri	Vadodara	23
+102	Vaibhav Sharma	Ahemdabad	23
+
+//Viewing only employee EmpId=102
+
+select * from employees where EmpId=102;
+
+EmpId	Name		Branch		age
+102	Vaibhav Sharma	Ahemdabad	23
+
+//Select Distinct Branch
+
+select distinct Branch from employees;
+
+Branch
+Ahmedabad
+Vadodara
+Ahemdabad
+
+//
+
+select * from employees order by Branch ;
+						
