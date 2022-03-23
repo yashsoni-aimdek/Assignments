@@ -14,9 +14,9 @@ app.post('/user/add', (req, res) => {
         return res.status(401).send({error: true,msg: 'User data missing'})
     }
 
-    const findExist = existUsers.find( user => user.name === userData.name)
+    const findExist = existUsers.find( user => user.id === userData.id)
     if(findExist){
-        return res.status(409).send({error: true, msg: 'name already exist'})
+        return res.status(409).send({error: true, msg: 'id already exist'})
     }
 
     existUsers.push(userData)
@@ -32,20 +32,20 @@ app.get('/user/list', (req, res) => {
 })
 
 //Update - Patch method
-app.patch('/user/update/:name', (req, res) => {
+app.patch('/user/update/:id', (req, res) => {
 
-    const name = req.params.name
+    const id = req.params.id
 
     const userData = req.body
 
     const existUsers = getUserData()
 
-    const findExist = existUsers.find(user => user.name === name )
+    const findExist = existUsers.find(user => user.id === id )
     if(!findExist){
-        return res.status(409).send({error: true,msg: 'name not exist'})
+        return res.status(409).send({error: true,msg: 'id not exist'})
     }
 
-    const updateUser = existUsers.filter( user => user.name !== name)
+    const updateUser = existUsers.filter( user => user.id !== id)
 
     updateUser.push(userData)
 
@@ -55,12 +55,12 @@ app.patch('/user/update/:name', (req, res) => {
 })
 
 //Delete -delete method
-app.delete('/user/delete/:name', (req, res) => {
-    const name = req.params.name
+app.delete('/user/delete/:id', (req, res) => {
+    const id = req.params.id
     
     const existUsers = getUserData()
 
-    const filterUser = existUsers.filter( user => user.name !== name )
+    const filterUser = existUsers.filter( user => user.id !== id )
 
     if( existUsers.length === filterUser.length){
         return res.status(409).send({error: true,msg: 'name does not exist'})
