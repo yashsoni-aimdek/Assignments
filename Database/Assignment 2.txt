@@ -1,0 +1,190 @@
+//Creating Database Transactions
+
+create database transactions;
+
+//Selecting Transactions
+
+use transactions;
+
+//Creating Table Products
+
+create table products(
+ProductId int primary key,
+ProductName varchar(20),
+BuyPrice float
+);
+
+
+//Creating Table Customer
+
+create table customer(
+CustomerId int Primary key,
+CustomerName varchar(20)
+);
+
+//Creating Table OrderDetails
+
+create table orderdetails(
+OrderId int primary key,
+ProductId int,
+CustomerId int,
+BillingName varchar(20),
+OrderAmount float not null,
+foreign key(ProductId) REFERENCES products(ProductId),
+foreign key(CustomerId) REFERENCES customer(CustomerId)
+);
+
+//Inserting Values in Customer Table
+
+insert into customer values (101,'Vivek Singh'),(102,'Rushabh Vaghela'),(103,'Nahush Khamkar'),(104,'Ishaan Patel'),(105,'Smeet Shah');
+
+//Viewing Values of Customer Table
+
+select * from customer;
+
+CustomerId	CustomerName
+101		Vivek Singh
+102		Rushabh Vaghela
+103		Nahush Khamkar
+104		Ishaan Patel
+105		Smeet Shah
+
+
+//Inserting Values in Products Table
+
+insert into products values (200,'Samsung A52s',38000),(201,'Logitech g502',2000),(202,'Logitech g552',4500),(203,'MSI GL63 8RC',55000),(204,'Razer Cynosa lite',6000);
+
+//Viewing Values of Products Table
+
+select * from products;
+
+ProductId	ProductName		BuyPrice
+200		Samsung A52s		38000
+201		Logitech g502		2000
+202		Logitech g552		4500
+203		MSI GL63 8RC		55000
+204		Razer Cynosa lite	6000
+			
+
+//Inserting Values in Orderdetails table
+
+insert into orderdetails values (1001,201,104,'Ishaan Patel',2000),(1002,200,105,'Smeet Shah',40000),(1003,204,101,'Vivek Singh',6500),(1004,203,103,'Nahush Khamkar',60000);
+
+//Viewing orderdetails Table
+
+select * from orderdetails;
+
+
+OrderId	ProductId	CustomerId	BillingName	OrderAmount
+1001	201		104		Ishaan Patel	2000
+1002	200		105		Smeet Shah	40000
+1003	204		101		Vivek Singh	6500
+1004	203		103		Nahush Khamkar	60000
+				
+
+//Inner Join
+
+select OrderDetails.OrderId, OrderDetails.ProductId, Products.ProductName from OrderDetails Inner Join Products on OrderDetails.ProductId=Products.ProductId;
+
+OrderId	ProductId	ProductName
+1002	200		Samsung A52s
+1001	201		Logitech g502
+1004	203		MSI GL63 8RC
+1003	204		Razer Cynosa lite
+
+//Left Join
+
+select customer.CustomerId, customer.customerName, orderdetails.OrderId, orderdetails.OrderAmount from customer Left Join orderdetails on customer.CustomerId=orderdetails.CustomerId;
+
+
+CustomerId	customerName	OrderId		OrderAmount
+101		Vivek Singh	1003		6000
+102		Rushabh Vaghela			
+103		Nahush Khamkar	1004		55000
+104		Ishaan Patel	1001		2000
+105		Smeet Shah	1002		38000
+
+//Right Join
+
+
+select products.ProductId, products.productName, orderdetails.OrderId, orderdetails.OrderAmount from products Right Join orderdetails on products.ProductId=orderdetails.ProductId;
+
+ProductId	productName		OrderId		OrderAmount
+201		Logitech g502		1001		2000
+200		Samsung A52s		1002		38000
+204		Razer Cynosa lite	1003		6000
+203		MSI GL63 8RC		1004		55000
+
+
+//Full Join
+
+select products.ProductId, products.productName, orderdetails.OrderId, orderdetails.OrderAmount from products Join orderdetails on products.ProductId=orderdetails.ProductId;
+
+ProductId	productName		OrderId		OrderAmount
+201		Logitech g502		1001		2000
+200		Samsung A52s		1002		38000
+204		Razer Cynosa lite	1003		6000
+203		MSI GL63 8RC		1004		55000
+
+//Creating Stored Procedure 
+
+USE `transactions`$$
+CREATE PROCEDURE `getOrderPrice` (in oid int)
+BEGIN
+Select OrderAmount from orderdetails where OrderId = oid ;
+END$$
+
+DELIMITER ;
+
+//calling stored Procedure
+
+call getOrderPrice(1001);
+
+OrderAmount
+2000
+
+//Creating Stored Procedure
+
+DELIMITER $$
+USE `transactions`$$
+CREATE DEFINER='root'@'localhost' PROCEDURE `getBuyingPrice` (in pid int)
+BEGIN
+Select ProductName,BuyPrice from products where ProductId = pid ;
+END$$
+
+DELIMITER ;
+
+//Calling Stored Procedure
+
+call getBuyingPrice(202);
+
+ProductName	BuyPrice
+Logitech g552	4500
+
+//Creating View
+
+CREATE
+	ALGORITHM = UNDEFINED
+    DEFINER = `root`@`localhost`
+    SQL SECURITY DEFINER
+VIEW `transactions`.`profitview` AS
+	SELECT
+		`transactions`.`orderdetails`.`OrderId` AS `OrderId`,
+        `transactions`.`orderdetails`.`ProductId` AS `ProductId`,
+        `transactions`.`products`.`ProductName` AS `productName`,
+        `transactions`.`orderdetails`.`OrderAmount` AS `OrderAmount`,
+        `transactions`.`products`.`BuyPrice` AS `BuyPrice`
+	FROM
+		(`transactions`.`orderdetails`
+        JOIN `transactions`.`products` ON ((`transactions`.`orderdetails`.`ProductId` = `transactions`.`products`.`ProductId`)))
+        
+        
+//Viewing View
+
+select *, OrderAmount-BuyPrice as Profit from profitview order by Profit;
+
+OrderId	ProductId	productName		OrderAmount	BuyPrice	Profit	
+1001	201		Logitech g502		2000		2000		0
+1003	204		Razer Cynosa lite	6500		6000		500
+1002	200		Samsung A52s		40000		38000		2000
+1004	203		MSI GL63 8RC		60000		55000		5000
