@@ -1,0 +1,63 @@
+// Sub documents
+
+db.posts.update({ title: 'First Post' },
+... {
+... $set: {
+... comments: [
+... {
+... body: 'Comment One',
+... user: 'Dhiren Notani',
+... date: Date()
+... },
+... {
+... body: 'Comment Two',
+... user: 'Vraj Patel',
+... date: Date()
+... }
+... ]
+... }
+... })
+
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+//Find by Element in Array
+
+db.posts.find({
+... comments: {
+... $elemMatch: {
+... user: 'Dhiren Notani'
+... }
+... }
+... }
+... ).pretty()
+
+
+{
+        "_id" : ObjectId("623c398e8b64337730878594"),
+        "title" : "First Post",
+        "body" : "Body of Post",
+        "category" : "Sports",
+        "tags" : [
+                "Cricket",
+                "India",
+                "Match"
+        ],
+        "user" : {
+                "name" : "Yash Soni",
+                "status" : "Author"
+        },
+        "date" : "Thu Mar 24 2022 14:57:42 GMT+0530 (India Standard Time)",
+        "comments" : [
+                {
+                        "body" : "Comment One",
+                        "user" : "Dhiren Notani",
+                        "date" : "Thu Mar 24 2022 15:23:01 GMT+0530 (India Standard Time)"
+                },
+                {
+                        "body" : "Comment Two",
+                        "user" : "Vraj Patel",
+                        "date" : "Thu Mar 24 2022 15:23:01 GMT+0530 (India Standard Time)"
+                }
+        ]
+}
+
